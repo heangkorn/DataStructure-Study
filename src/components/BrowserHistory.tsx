@@ -1,4 +1,4 @@
- import { useState } from "react";
+import { useState } from "react";
 
  class ListNode {
   url: string;
@@ -88,7 +88,9 @@
  Forward
         </button>
       </div>
+ <hr></hr>
     </div>
+    
   );
  };
  export default BrowserHistoryComponent
