@@ -90,6 +90,7 @@ const ImageCarousel: React.FC = () => {
           Next
         </button>
       </div>
+      <hr></hr>
     </div>
   );
 };
