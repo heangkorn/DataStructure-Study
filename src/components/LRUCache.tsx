@@ -1,3 +1,5 @@
+import React, { useState, useMemo } from 'react';
+
 class Node {
   key: string;
   value: string;
@@ -76,5 +78,85 @@ class LRUCache {
   size(): number {
     return this.currentSize;
   }
+
+  // Method to get the cache as an array for display
+  getCacheAsArray(): { key: string, value: string }[] {
+    const result: { key: string, value: string }[] = [];
+    let currentNode = this.head.next;
+    while (currentNode && currentNode !== this.tail) {
+      result.push({ key: currentNode.key, value: currentNode.value });
+      currentNode = currentNode.next;
+    }
+    return result;
+  }
 }
- export default LRUCache 
+
+const LRUCacheComponent: React.FC = () => {
+  const [capacity] = useState(5);
+  const cache = useMemo(() => new LRUCache(capacity), [capacity]);
+  const [cacheState, setCacheState] = useState(cache.getCacheAsArray());
+  const [putKey, setPutKey] = useState('');
+  const [putValue, setPutValue] = useState('');
+  const [getKey, setGetKey] = useState('');
+  const [getValue, setGetValue] = useState<string | null>(null);
+
+  const handlePut = () => {
+    if (putKey && putValue) {
+      cache.put(putKey, putValue);
+      setCacheState(cache.getCacheAsArray());
+      setPutKey('');
+      setPutValue('');
+    }
+  };
+
+  const handleGet = () => {
+    if (getKey) {
+      const value = cache.get(getKey);
+      setGetValue(value);
+      setCacheState(cache.getCacheAsArray());
+    }
+  };
+
+  return (
+    <div>
+      <h2>LRU Cache</h2>
+      <div>
+        <h3>Put Value</h3>
+        <input
+          type="text"
+          value={putKey}
+          onChange={(e) => setPutKey(e.target.value)}
+          placeholder="Key"
+        />
+        <input
+          type="text"
+          value={putValue}
+          onChange={(e) => setPutValue(e.target.value)}
+          placeholder="Value"
+        />
+        <button onClick={handlePut}>Put</button>
+      </div>
+      <div>
+        <h3>Get Value</h3>
+        <input
+          type="text"
+          value={getKey}
+          onChange={(e) => setGetKey(e.target.value)}
+          placeholder="Key"
+        />
+        <button onClick={handleGet}>Get</button>
+        {getValue !== null && <p>Value: {getValue}</p>}
+      </div>
+      <div>
+        <h3>Cache State</h3>
+        <ul>
+          {cacheState.map((item, index) => (
+            <li key={index}>{`{${item.key}: ${item.value}}`}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default LRUCacheComponent;

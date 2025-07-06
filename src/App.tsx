@@ -1,7 +1,7 @@
 import './App.css'
 import Page from "./components/BrowserHistory"
 import ImageCarousel from './components/ImageCarousel';
-import page2 from './components/LRUCache';
+import LRUCacheComponent from './components/LRUCache';
 
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
     <>
       <Page/>
       <ImageCarousel />
-      <page2/>
+      <LRUCacheComponent />
   
     </>
     
